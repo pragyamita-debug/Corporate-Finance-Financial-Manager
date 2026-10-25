@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react';
+import skylineSrc from '../assets/photos/night-skyline.jpg';
 import { useReducedMotion } from '../hooks/useReducedMotion';
 
 interface Column {
@@ -27,6 +28,57 @@ export function WaterBackdrop() {
     let h = 0;
     let raf = 0;
     let cols: Column[] = [];
+    // the city's imprint: the skyline from the hero photo, pre-rendered faint on the horizon, plus its mirror image
+    const img = new Image();
+    img.src = skylineSrc;
+    const city = document.createElement('canvas');
+    const mirror = document.createElement('canvas');
+    let horizon = 0;
+    let cityH = 0;
+
+    const renderCity = () => {
+      if (!img.complete || !img.naturalWidth || !w) return;
+      const iw = img.naturalWidth;
+      const ih = img.naturalHeight;
+      // everything above the river in the photo, scaled to the page width
+      const sy0 = 0.06 * ih;
+      const sy1 = 0.83 * ih;
+      const dh = Math.min(horizon, (w * (sy1 - sy0)) / iw);
+      cityH = dh;
+      const scale = 1.25;
+      for (const c of [city, mirror]) {
+        c.width = Math.round(w * scale);
+        c.height = Math.max(1, Math.round(dh * scale));
+      }
+      const cc = city.getContext('2d')!;
+      cc.setTransform(scale, 0, 0, scale, 0, 0);
+      cc.filter = 'grayscale(0.35) brightness(1.15)';
+      cc.drawImage(img, 0, sy0, iw, sy1 - sy0, 0, 0, w, dh);
+      cc.filter = 'none';
+      // fade the sky away so only the towers and their lights read
+      cc.globalCompositeOperation = 'destination-in';
+      const fade = cc.createLinearGradient(0, 0, 0, dh);
+      fade.addColorStop(0, 'rgba(0,0,0,0)');
+      fade.addColorStop(0.35, 'rgba(0,0,0,0.7)');
+      fade.addColorStop(1, 'rgba(0,0,0,1)');
+      cc.fillStyle = fade;
+      cc.fillRect(0, 0, w, dh);
+      // mirror image for the reflection, fading out with depth
+      const mc = mirror.getContext('2d')!;
+      mc.setTransform(scale, 0, 0, -scale, 0, dh * scale);
+      mc.drawImage(city, 0, 0, w, dh);
+      mc.setTransform(scale, 0, 0, scale, 0, 0);
+      mc.globalCompositeOperation = 'destination-in';
+      const mf = mc.createLinearGradient(0, 0, 0, dh);
+      mf.addColorStop(0, 'rgba(0,0,0,0.85)');
+      mf.addColorStop(0.7, 'rgba(0,0,0,0)');
+      mc.fillStyle = mf;
+      mc.fillRect(0, 0, w, dh);
+    };
+    img.onload = () => {
+      renderCity();
+      if (reduced) draw(0);
+    };
 
     const size = () => {
       const dpr = Math.min(window.devicePixelRatio || 1, 1.25);
@@ -37,6 +89,8 @@ export function WaterBackdrop() {
       cv.style.width = `${w}px`;
       cv.style.height = `${h}px`;
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      horizon = Math.round(h * 0.6);
+      renderCity();
       const n = Math.max(8, Math.round(w / 90));
       cols = Array.from({ length: n }, (_, i) => ({
         x: ((i + 0.5) / n) * w + (Math.random() - 0.5) * 50,
@@ -53,17 +107,44 @@ export function WaterBackdrop() {
     const draw = (t: number) => {
       // deep water, a little lighter toward the bottom of the screen
       const g = ctx.createLinearGradient(0, 0, 0, h);
-      g.addColorStop(0, '#07101e');
-      g.addColorStop(0.55, '#0a1628');
+      g.addColorStop(0, '#060d1a');
+      g.addColorStop(0.58, '#132544');
+      g.addColorStop(0.6, '#0c1a30');
       g.addColorStop(1, '#0e1d33');
       ctx.fillStyle = g;
       ctx.fillRect(0, 0, w, h);
 
+      // the city imprint on the horizon; it rises a little as the page scrolls, for depth
+      if (cityH) {
+        const lift = Math.min(60, window.scrollY * 0.02);
+        const top = horizon - cityH - lift;
+        ctx.globalCompositeOperation = 'screen';
+        ctx.globalAlpha = 0.34;
+        ctx.drawImage(city, 0, top, w, cityH);
+        // its reflection, redrawn in bands with a travelling ripple so it moves with the water
+        ctx.globalAlpha = 0.22;
+        const band = 3;
+        const sh = mirror.height / cityH;
+        for (let y = 0; y < cityH; y += band) {
+          const dx = Math.sin(y * 0.08 - t * 1.8) * (2 + (y / cityH) * 10) + Math.sin(y * 0.021 + t * 0.6) * 4;
+          ctx.drawImage(mirror, 0, y * sh, mirror.width, band * sh, dx, horizon - lift + y, w, band);
+        }
+        ctx.globalAlpha = 1;
+        ctx.globalCompositeOperation = 'source-over';
+        // a soft line of haze where the city meets the water
+        const hz = ctx.createLinearGradient(0, horizon - lift - 30, 0, horizon - lift + 30);
+        hz.addColorStop(0, 'rgba(120, 150, 200, 0)');
+        hz.addColorStop(0.5, 'rgba(150, 170, 210, 0.08)');
+        hz.addColorStop(1, 'rgba(120, 150, 200, 0)');
+        ctx.fillStyle = hz;
+        ctx.fillRect(0, horizon - lift - 30, w, 60);
+      }
+
       // reflections: each column is a broken, wobbling stack of dashes
       const step = 6;
       for (const c of cols) {
-        for (let y = 0; y < h; y += step) {
-          const k = y / h;
+        for (let y = horizon; y < h; y += step) {
+          const k = (y - horizon) / (h - horizon);
           const wob = Math.sin(y * 0.045 - t * 1.6 * c.speed + c.phase) + 0.6 * Math.sin(y * 0.013 + t * 0.7 + c.phase * 0.5);
           const len = c.width * (0.35 + 0.65 * Math.abs(Math.sin(y * 0.11 + t * 2.2 * c.speed + c.phase)));
           const a = (0.05 + 0.16 * Math.max(0, Math.sin(y * 0.07 - t * 2.4 + c.phase))) * (0.6 + k * 0.6);
@@ -75,9 +156,9 @@ export function WaterBackdrop() {
 
       // ripple lines flowing slowly across the whole surface
       ctx.lineWidth = 1;
-      for (let i = 0; i < 26; i++) {
-        const y = ((i / 26) * h + t * 14) % h;
-        const a = 0.035 + 0.05 * (y / h);
+      for (let i = 0; i < 18; i++) {
+        const y = horizon + (((i / 18) * (h - horizon) + t * 10) % (h - horizon));
+        const a = 0.03 + 0.06 * ((y - horizon) / (h - horizon));
         ctx.strokeStyle = `rgba(160, 190, 230, ${a})`;
         ctx.beginPath();
         for (let x = 0; x <= w; x += 24) {

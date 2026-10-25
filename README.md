@@ -29,8 +29,9 @@ Before anything is uploaded the page shows the full design with neutral placehol
 - Every real light in the photo (windows, tower tops, bridge lamps — mapped from the photo into `data/lights.ts`)
   twinkles on its own rhythm, windows now and then switch off and on, and a shimmer sweeps along the lit strips.
 - The river is redrawn from the photo row by row with travelling ripples, so the reflections flow (`CityLights`).
-- The whole page sits on dark flowing water: a canvas of wobbling city-light reflections and ripple lines
-  (`WaterBackdrop`), with gold dust drifting over it. Canvases pause when off-screen or the tab is hidden.
+- The whole page sits on dark flowing water with a faint imprint of the city on the horizon — the skyline from
+  the hero photo, its reflection rippling in the water below — plus wobbling city-light reflections and ripple
+  lines (`WaterBackdrop`), with gold dust drifting over it. Canvases pause when off-screen or the tab is hidden.
 - Every card carries a light travelling around its border and a pointer-follow glow; photos zoom on hover.
 - Figures and results count up when they scroll into view. Everything respects `prefers-reduced-motion`.
 
