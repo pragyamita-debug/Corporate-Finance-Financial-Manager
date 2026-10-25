@@ -1,23 +1,23 @@
-/* Theme: slate-blue city at dawn, teal accents, a warm sunrise */
+/* Theme: a city at night — deep navy, warm gold light */
 :root {
   color-scheme: dark;
 
-  --bg: #0e1a24;
-  --bg-2: #13222e;
-  --paper: #172936;
-  --surface: rgba(140, 200, 210, 0.05);
-  --surface-2: rgba(140, 200, 210, 0.09);
-  --line: rgba(170, 210, 220, 0.13);
-  --line-strong: rgba(170, 210, 220, 0.26);
+  --bg: #08101e;
+  --bg-2: #0c1628;
+  --paper: #101c30;
+  --surface: rgba(200, 160, 98, 0.05);
+  --surface-2: rgba(200, 160, 98, 0.09);
+  --line: rgba(200, 170, 120, 0.16);
+  --line-strong: rgba(214, 178, 118, 0.38);
 
   --text: #eef4f6;
-  --text-2: #b3c4cc;
-  --muted: #8297a1;
-  --dim: #5b6f79;
+  --text-2: #b8c0cf;
+  --muted: #8590a5;
+  --dim: #5b6479;
 
-  --teal: #5fb3b3;
-  --teal-2: #3f8f92;
-  --cyan: #9fd8d6;
+  --teal: #c9a062;
+  --teal-2: #a8803f;
+  --cyan: #ead09a;
   --orange: #e9a35a;
   --orange-2: #d9823c;
   --sun: #ffcf8f;
@@ -26,23 +26,23 @@
 
   --accent: var(--teal);
   --accent-2: var(--teal-2);
-  --accent-soft: #a7dcdb;
+  --accent-soft: #ead09a;
   --forest: var(--teal-2);
-  --forest-2: #4ba0a2;
+  --forest-2: #b8904f;
   --warm: var(--orange);
 
-  --nav-bg: rgba(14, 26, 36, 0.82);
-  --card-1: rgba(27, 46, 60, 0.74);
-  --card-2: rgba(17, 32, 43, 0.82);
+  --nav-bg: rgba(8, 16, 30, 0.84);
+  --card-1: rgba(17, 29, 50, 0.74);
+  --card-2: rgba(10, 19, 35, 0.84);
   --ghost-bg: transparent;
-  --hover-tint: rgba(95, 179, 179, 0.1);
-  --dialog-1: #172936;
-  --dialog-2: #101e28;
-  --input-bg: #0c1720;
+  --hover-tint: rgba(201, 160, 98, 0.1);
+  --dialog-1: #111d32;
+  --dialog-2: #0b1526;
+  --input-bg: #08111f;
   --scrim: rgba(5, 10, 15, 0.72);
   --shadow: rgba(0, 0, 0, 0.55);
   --on-accent: #ffffff;
-  --ring-base: rgba(170, 210, 220, 0.14);
+  --ring-base: rgba(214, 178, 118, 0.16);
 
   --green: var(--teal);
   --purple: var(--cyan);
@@ -86,7 +86,7 @@ a { color: inherit; text-decoration: none; }
 button, input, textarea { font: inherit; color: inherit; }
 button { cursor: pointer; }
 img { display: block; max-width: 100%; }
-::selection { background: rgba(95, 179, 179, 0.4); }
+::selection { background: rgba(201, 160, 98, 0.4); }
 
 :focus-visible {
   outline: 2px solid var(--cyan);
@@ -133,8 +133,8 @@ img { display: block; max-width: 100%; }
   height: 42px;
   padding: 0 22px;
   border-radius: 4px;
-  border: 1px solid rgba(170, 225, 225, 0.4);
-  background: linear-gradient(180deg, #67b9b9, #4c9fa1);
+  border: 1px solid rgba(235, 205, 150, 0.45);
+  background: linear-gradient(180deg, #d4ae6c, #b38a48);
   color: #fff;
   font-family: var(--font);
   font-size: 13.5px;
@@ -143,17 +143,19 @@ img { display: block; max-width: 100%; }
   white-space: nowrap;
   overflow: hidden;
   isolation: isolate;
-  box-shadow: 0 10px 26px -12px rgba(95, 179, 179, 0.9);
+  box-shadow: 0 10px 26px -12px rgba(201, 160, 98, 0.9);
   transition: transform 0.3s var(--ease-out), box-shadow 0.3s, background 0.3s, color 0.3s;
 }
 .pill svg { flex: none; transition: transform 0.3s var(--ease-out); }
-.pill:hover { box-shadow: 0 0 0 4px rgba(95, 179, 179, 0.18), 0 12px 34px -8px rgba(95, 179, 179, 1); }
+.pill:hover { box-shadow: 0 0 0 4px rgba(201, 160, 98, 0.18), 0 12px 34px -8px rgba(201, 160, 98, 1); }
 .pill:hover svg { transform: translateX(3px); }
 .pill:active { transform: scale(0.97); }
 .pill--sm { height: 36px; padding: 0 16px; font-size: 13px; }
 .pill--ghost { background: transparent; color: var(--text); border-color: var(--line-strong); box-shadow: none; }
 .pill--ghost:hover { background: var(--hover-tint); border-color: var(--teal); box-shadow: none; }
 .pill--glass { background: rgba(255, 255, 255, 0.03); border-color: rgba(255, 255, 255, 0.55); box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
+.pill--line { background: transparent; border-color: var(--teal); color: var(--accent-soft); box-shadow: none; letter-spacing: 0.12em; text-transform: uppercase; font-size: 12.5px; }
+.pill--line:hover { background: rgba(201, 160, 98, 0.12); color: #fff; box-shadow: 0 0 0 4px rgba(201, 160, 98, 0.12), 0 0 30px -6px rgba(201, 160, 98, 0.8); }
 .pill--glass:hover { background: rgba(255, 255, 255, 0.16); box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3), 0 0 0 4px rgba(255, 255, 255, 0.08); }
 
 /* light sweeping across solid buttons */

@@ -1,8 +1,8 @@
 import { useEffect, useState, type CSSProperties } from 'react';
-import charts from '../assets/photos/desk-charts.jpg';
-import laptop from '../assets/photos/desk-laptop.jpg';
-import signing from '../assets/photos/desk-signing.jpg';
-import skyline from '../assets/photos/skyline.jpg';
+import skyline from '../assets/photos/night-skyline.jpg';
+import commercial from '../assets/photos/project-commercial.jpg';
+import interior from '../assets/photos/project-interior.jpg';
+import villa from '../assets/photos/project-villa.jpg';
 import { useCountUp } from '../hooks/useCountUp';
 import { useInView } from '../hooks/useInView';
 import { iconFor, leadNumber, splitHeadline } from '../lib/finance';
@@ -63,43 +63,51 @@ export function TopBar({ resume, active, isExample, onUpload }: { resume: Resume
   );
 }
 
-/* ================= hero: the city at dawn ================= */
+/* ================= hero: the city at night ================= */
+
+// points on the photo (as % of its width / height) where lights sit: tower tops, the bridge, the spire
+const LIGHTS: [number, number, number][] = [
+  [54.7, 17.4, 0], [31.1, 67.6, 1.2], [34.6, 67.3, 2.1], [38.9, 64.6, 0.6], [44.6, 64.3, 1.7], [26.2, 71.5, 2.6],
+  [12, 78.8, 0.3], [20, 78.8, 1.4], [28, 78.6, 2.2], [36, 78.6, 0.9], [44, 78.5, 1.9], [52, 78.4, 2.8], [47.4, 69.8, 1.1],
+];
 
 export function Hero({ resume, isExample, onUpload }: { resume: Resume; isExample: boolean; onUpload: () => void }) {
   const [role, focus] = splitHeadline(resume.headline);
+  const words = (focus || 'Corporate Finance').split(/\s+&\s+|\s*[,·]\s*|\s+and\s+/i).filter(Boolean).slice(0, 3);
   return (
     <section className="hero" id="home" aria-label="Introduction">
       <div className="hero__scene" aria-hidden>
-        {/* the sun comes up behind the towers; the photo is screened over it so it glows through the haze */}
-        <span className="hero__sun" />
-        <span className="hero__rays" />
-        <img className="hero__city" src={skyline} alt="" />
-        <span className="hero__traffic">
-          {Array.from({ length: 7 }, (_, i) => (
-            <i key={i} style={{ '--i': i } as CSSProperties} />
+        <div className="hero__photo">
+          <img src={skyline} alt="" />
+          {/* a warm glow rising on the horizon behind the spire */}
+          <span className="hero__sun" />
+          {/* the river: moving ripples of reflected light */}
+          <span className="hero__water" />
+          {LIGHTS.map(([x, y, d], i) => (
+            <i key={i} className="hero__light" style={{ left: `${x}%`, top: `${y}%`, animationDelay: `${d}s` } as CSSProperties} />
           ))}
-        </span>
+        </div>
         <span className="hero__shade" />
       </div>
       <div className="wrap hero__copy">
-        <h1 className="hero__title">
-          <span>{role}</span>
-          <span className="hero__accent">{focus || 'Corporate Finance'}</span>
-        </h1>
+        <p className="hero__eyebrow">
+          {words.map((w, i) => (
+            <span key={w + i}>{w}</span>
+          ))}
+        </p>
+        <h1 className="hero__title">{role}</h1>
+        <span className="hero__rule" aria-hidden />
         <p className="hero__lede">{resume.tagline}</p>
         <div className="hero__actions">
           {isExample ? (
-            <button className="pill" onClick={onUpload}>
-              <Icon name="upload" size={16} /> Upload your CV
+            <button className="pill pill--line" onClick={onUpload}>
+              Upload your CV <Icon name="arrowRight" size={16} />
             </button>
           ) : (
-            <a className="pill" href="#services">
-              View Services
+            <a className="pill pill--line" href="#insights">
+              Explore experience <Icon name="arrowRight" size={16} />
             </a>
           )}
-          <a className="pill pill--glass" href="#contact">
-            Contact Me
-          </a>
         </div>
       </div>
     </section>
@@ -192,7 +200,7 @@ export function Services({ resume }: { resume: Resume }) {
 
 /* ================= insights: roles as photo cards ================= */
 
-const PHOTOS = [laptop, signing, charts];
+const PHOTOS = [villa, commercial, interior];
 
 export function Insights({ resume }: { resume: Resume }) {
   const [open, setOpen] = useState<number | null>(null);

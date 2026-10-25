@@ -19,6 +19,13 @@ export function Dashboard({ profile, isExample, onUploadNew, onEdit, onReset, on
   const active = useScrollSpy(IDS, 140);
   return (
     <>
+      {/* fixed, animated backdrop: blueprint grid with a sweeping gold light, drifting gold dust */}
+      <div className="backdrop" aria-hidden>
+        <span className="backdrop__grid" />
+        <span className="backdrop__scan" />
+        <span className="backdrop__dust" />
+        <span className="backdrop__dust backdrop__dust--2" />
+      </div>
       <TopBar resume={resume} active={active} isExample={isExample} onUpload={onUploadNew} />
       <main>
         <Hero resume={resume} isExample={isExample} onUpload={onUploadNew} />

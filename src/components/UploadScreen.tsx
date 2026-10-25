@@ -2,7 +2,7 @@ import { useRef, useState, type DragEvent } from 'react';
 import { ACCEPTED } from '../lib/extractText';
 import { GlowCard } from './GlowCard';
 import { Icon } from './Icon';
-import skyline from '../assets/photos/skyline.jpg';
+import skyline from '../assets/photos/night-skyline.jpg';
 import { Logo } from './Logo';
 import './UploadScreen.css';
 

@@ -6,9 +6,9 @@
   background: transparent;
 }
 .upload__scene { position: absolute; z-index: -1; top: 0; right: 0; bottom: 0; width: min(58%, 820px); pointer-events: none; -webkit-mask: linear-gradient(90deg, transparent, #000 40%); mask: linear-gradient(90deg, transparent, #000 40%); }
-.upload__sun { position: absolute; left: 30%; bottom: 34%; width: 60%; aspect-ratio: 1; border-radius: 50%; background: radial-gradient(circle, #fff1d6 0%, #ffcf8f 18%, rgba(233, 140, 70, 0.55) 40%, transparent 70%); animation: up-rise 4s var(--ease-out) both; }
+.upload__sun { position: absolute; left: 30%; bottom: 8%; width: 50%; aspect-ratio: 1; border-radius: 50%; background: radial-gradient(circle, rgba(255, 210, 160, 0.55), rgba(240, 140, 110, 0.2) 45%, transparent 70%); animation: up-rise 4s var(--ease-out) both; }
 @keyframes up-rise { from { transform: translateY(40%); opacity: 0.2; } }
-.upload__city { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; mix-blend-mode: screen; opacity: 0.95; }
+.upload__city { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 70% 50%; opacity: 0.95; }
 
 .upload__top {
   display: flex;
@@ -42,7 +42,7 @@
 .upload__brand { display: inline-flex; align-items: center; gap: 12px; }
 .upload__copy p { margin-top: 18px; max-width: 430px; color: var(--text-2); font-size: 15px; line-height: 1.65; }
 
-.upload { background: linear-gradient(180deg, #0c1720 0%, #13222e 100%); }
+.upload { background: linear-gradient(180deg, #08101e 0%, #0c1628 100%); }
 .upload__drop {
   width: min(520px, 100%);
   background: var(--card-1);
