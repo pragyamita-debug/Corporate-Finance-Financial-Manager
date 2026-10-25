@@ -24,7 +24,13 @@ function downloadBlob(href: string, name: string) {
 }
 
 export default function App() {
-  const [profile, setProfile] = useState<StoredProfile | null>(() => loadProfile());
+  // showcase mode (?demo in the URL, or a build with VITE_DEMO=1) opens as a finished site filled from the sample CV
+  const [profile, setProfile] = useState<StoredProfile | null>(() => {
+    const saved = loadProfile();
+    if (saved) return saved;
+    const demo = import.meta.env.VITE_DEMO === '1' || new URLSearchParams(window.location.search).has('demo');
+    return demo ? { resume: parseResume(sampleCv), updatedAt: 0 } : null;
+  });
   // open on the dashboard; before a CV is uploaded it shows the placeholder profile
   const [stage, setStage] = useState<Stage>('dashboard');
   const [step, setStep] = useState(0);

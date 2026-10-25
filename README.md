@@ -19,6 +19,8 @@ on the candidate's own device.
 | Track record | achievements — the first figure in each ($18M, 12%, …) counts up — plus certifications and education |
 | Footer | motto and contact details |
 
+Add `?demo` to the address to open the site filled from the fictional sample CV.
+
 Before anything is uploaded the page shows the full design with neutral placeholders ("Your Role", "Skill One" …).
 
 ## Motion
@@ -38,6 +40,7 @@ npm run dev          # local dev server
 npm test             # parser tests (vitest)
 npm run build        # static build in dist/ (deployed to GitHub Pages by .github/workflows/deploy.yml)
 npm run build:single # one self-contained dist-single/index.html
+npm run build:demo   # same, but opens already filled from the sample CV (showcase)
 ```
 
 Stack: Vite, React 18, TypeScript, pdf.js and mammoth for reading files. Fonts (Cormorant Garamond, Inter) are
