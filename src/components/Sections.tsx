@@ -1,4 +1,5 @@
 import { useEffect, useState, type CSSProperties } from 'react';
+import lightsLayer from '../assets/photos/night-lights.webp';
 import skyline from '../assets/photos/night-skyline.jpg';
 import commercial from '../assets/photos/project-commercial.jpg';
 import interior from '../assets/photos/project-interior.jpg';
@@ -7,6 +8,7 @@ import { useCountUp } from '../hooks/useCountUp';
 import { useInView } from '../hooks/useInView';
 import { iconFor, leadNumber, splitHeadline } from '../lib/finance';
 import type { Resume } from '../lib/types';
+import { CityLights } from './CityLights';
 import { GlowCard } from './GlowCard';
 import { Icon, type IconName } from './Icon';
 import { Logo } from './Logo';
@@ -65,12 +67,6 @@ export function TopBar({ resume, active, isExample, onUpload }: { resume: Resume
 
 /* ================= hero: the city at night ================= */
 
-// points on the photo (as % of its width / height) where lights sit: tower tops, the bridge, the spire
-const LIGHTS: [number, number, number][] = [
-  [54.7, 17.4, 0], [31.1, 67.6, 1.2], [34.6, 67.3, 2.1], [38.9, 64.6, 0.6], [44.6, 64.3, 1.7], [26.2, 71.5, 2.6],
-  [12, 78.8, 0.3], [20, 78.8, 1.4], [28, 78.6, 2.2], [36, 78.6, 0.9], [44, 78.5, 1.9], [52, 78.4, 2.8], [47.4, 69.8, 1.1],
-];
-
 export function Hero({ resume, isExample, onUpload }: { resume: Resume; isExample: boolean; onUpload: () => void }) {
   const [role, focus] = splitHeadline(resume.headline);
   const words = (focus || 'Corporate Finance').split(/\s+&\s+|\s*[,·]\s*|\s+and\s+/i).filter(Boolean).slice(0, 3);
@@ -81,11 +77,10 @@ export function Hero({ resume, isExample, onUpload }: { resume: Resume; isExampl
           <img src={skyline} alt="" />
           {/* a warm glow rising on the horizon behind the spire */}
           <span className="hero__sun" />
-          {/* the river: moving ripples of reflected light */}
-          <span className="hero__water" />
-          {LIGHTS.map(([x, y, d], i) => (
-            <i key={i} className="hero__light" style={{ left: `${x}%`, top: `${y}%`, animationDelay: `${d}s` } as CSSProperties} />
-          ))}
+          {/* the photo's own lights, cut out, with a shimmer sweeping along the lit strips */}
+          <img className="hero__shine" src={lightsLayer} alt="" />
+          {/* flowing river + every window and lamp twinkling on its own */}
+          <CityLights src={skyline} />
         </div>
         <span className="hero__shade" />
       </div>

@@ -1,6 +1,7 @@
 import { useScrollSpy } from '../hooks/useScrollSpy';
 import type { StoredProfile } from '../lib/types';
 import { Figures, Footer, Hero, Insights, NAV, Projects, Record, Services, TopBar } from './Sections';
+import { WaterBackdrop } from './WaterBackdrop';
 import './Dashboard.css';
 
 const IDS = NAV.map((n) => n.id);
@@ -19,10 +20,9 @@ export function Dashboard({ profile, isExample, onUploadNew, onEdit, onReset, on
   const active = useScrollSpy(IDS, 140);
   return (
     <>
-      {/* fixed, animated backdrop: blueprint grid with a sweeping gold light, drifting gold dust */}
+      {/* the whole page sits on dark flowing water with city-light reflections */}
+      <WaterBackdrop />
       <div className="backdrop" aria-hidden>
-        <span className="backdrop__grid" />
-        <span className="backdrop__scan" />
         <span className="backdrop__dust" />
         <span className="backdrop__dust backdrop__dust--2" />
       </div>

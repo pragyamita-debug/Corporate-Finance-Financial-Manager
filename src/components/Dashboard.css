@@ -3,15 +3,10 @@ main { overflow-x: clip; }
 .fig b, .outcomes b, .foot__motto { font-variant-numeric: lining-nums tabular-nums; font-feature-settings: 'lnum' 1, 'tnum' 1; }
 body { background: #08101e; }
 
-/* ================= animated backdrop (fixed behind everything) ================= */
+/* ================= flowing-water backdrop (fixed behind everything) ================= */
 
-.backdrop { position: fixed; inset: 0; z-index: -2; overflow: hidden; pointer-events: none; background: radial-gradient(900px 600px at 85% 15%, rgba(46, 72, 120, 0.35), transparent 70%), radial-gradient(800px 600px at 10% 90%, rgba(150, 110, 50, 0.14), transparent 70%), linear-gradient(180deg, #0a1426, #08101e 60%, #070d18); }
-/* faint architectural blueprint grid, slowly drifting */
-.backdrop__grid { position: absolute; inset: -80px; background-image: linear-gradient(rgba(201, 160, 98, 0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(201, 160, 98, 0.06) 1px, transparent 1px), linear-gradient(rgba(201, 160, 98, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(201, 160, 98, 0.03) 1px, transparent 1px); background-size: 160px 160px, 160px 160px, 32px 32px, 32px 32px; -webkit-mask: radial-gradient(70% 60% at 50% 50%, #000, transparent); mask: radial-gradient(70% 60% at 50% 50%, #000, transparent); animation: grid-drift 40s linear infinite; }
-@keyframes grid-drift { to { transform: translate(160px, 160px); } }
-/* a band of gold light sweeping down the page like a scanner */
-.backdrop__scan { position: absolute; left: 0; right: 0; top: -30%; height: 30%; background: linear-gradient(180deg, transparent, rgba(201, 160, 98, 0.07) 50%, transparent); animation: scan 14s ease-in-out infinite; }
-@keyframes scan { 0% { transform: translateY(0); } 100% { transform: translateY(440%); } }
+.water { position: fixed; inset: 0; z-index: -3; display: block; pointer-events: none; }
+.backdrop { position: fixed; inset: 0; z-index: -2; overflow: hidden; pointer-events: none; }
 /* gold dust drifting up */
 .backdrop__dust { position: absolute; inset: 0; background-image: radial-gradient(1.5px 1.5px at 12% 18%, rgba(240, 210, 150, 0.8), transparent), radial-gradient(1px 1px at 28% 72%, rgba(240, 210, 150, 0.7), transparent), radial-gradient(1.5px 1.5px at 46% 38%, rgba(240, 210, 150, 0.6), transparent), radial-gradient(1px 1px at 63% 84%, rgba(240, 210, 150, 0.7), transparent), radial-gradient(2px 2px at 78% 26%, rgba(240, 210, 150, 0.6), transparent), radial-gradient(1px 1px at 90% 62%, rgba(240, 210, 150, 0.8), transparent), radial-gradient(1.5px 1.5px at 6% 54%, rgba(240, 210, 150, 0.5), transparent), radial-gradient(1px 1px at 54% 8%, rgba(240, 210, 150, 0.7), transparent); background-size: 100% 100%; animation: dust 26s linear infinite; }
 .backdrop__dust--2 { background-position: 37% 41%; opacity: 0.6; animation-duration: 38s; animation-delay: -12s; transform: scale(1.4); }
@@ -51,10 +46,11 @@ body { background: #08101e; }
 .hero__sun { position: absolute; left: 54.5%; top: 74%; width: 34%; aspect-ratio: 1.6; translate: -50% -50%; border-radius: 50%; background: radial-gradient(closest-side, rgba(255, 196, 140, 0.55), rgba(240, 140, 110, 0.25) 45%, transparent 75%); mix-blend-mode: screen; animation: glow-rise 5s 0.6s cubic-bezier(0.2, 0.7, 0.2, 1) both, glow-breathe 8s 6s ease-in-out infinite; }
 @keyframes glow-rise { from { opacity: 0; transform: translateY(40%) scale(0.7); } to { opacity: 1; transform: none; } }
 @keyframes glow-breathe { 50% { opacity: 0.7; transform: scale(1.08); } }
-.hero__water { position: absolute; left: 0; right: 30%; top: 82%; bottom: 0; background: repeating-linear-gradient(180deg, rgba(255, 220, 160, 0) 0 5px, rgba(255, 220, 160, 0.16) 6px, rgba(255, 220, 160, 0) 8px); background-size: 100% 16px; mix-blend-mode: screen; -webkit-mask: linear-gradient(90deg, transparent, #000 15%, #000 85%, transparent), repeating-linear-gradient(90deg, #000 0 3px, transparent 3px 7px); -webkit-mask-composite: source-in; mask: linear-gradient(90deg, transparent, #000 15%, #000 85%, transparent), repeating-linear-gradient(90deg, #000 0 3px, transparent 3px 7px); mask-composite: intersect; animation: ripple 3.5s linear infinite; }
-@keyframes ripple { to { background-position: 0 16px; } }
-.hero__light { position: absolute; width: 5px; height: 5px; margin: -2.5px 0 0 -2.5px; border-radius: 50%; background: #fff3d6; box-shadow: 0 0 6px 2px rgba(255, 210, 140, 0.9), 0 0 18px 4px rgba(255, 190, 110, 0.35); animation: twinkle 3.2s ease-in-out infinite; }
-@keyframes twinkle { 0%, 100% { opacity: 0.25; transform: scale(0.7); } 45% { opacity: 1; transform: scale(1.15); } }
+.hero__canvas { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+/* the lights layer, brightened, with a band of light sweeping across it — the strips and windows shimmer */
+.hero__shine { position: absolute; inset: 0; width: 100%; height: 100%; max-width: none; mix-blend-mode: screen; filter: brightness(1.6) saturate(1.2); opacity: 0.85; -webkit-mask: linear-gradient(100deg, transparent 30%, #000 45%, #000 55%, transparent 70%) 0 0 / 300% 100% no-repeat; mask: linear-gradient(100deg, transparent 30%, #000 45%, #000 55%, transparent 70%) 0 0 / 300% 100% no-repeat; animation: shimmer 6s ease-in-out infinite, flicker 2.6s steps(2, end) infinite; }
+@keyframes shimmer { from { -webkit-mask-position: 100% 0; mask-position: 100% 0; } to { -webkit-mask-position: 0% 0; mask-position: 0% 0; } }
+@keyframes flicker { 0%, 100% { opacity: 0.85; } 50% { opacity: 0.7; } }
 .hero__shade { position: absolute; inset: 0; background: linear-gradient(90deg, rgba(10, 20, 38, 0.62) 0%, rgba(10, 20, 38, 0.3) 32%, rgba(10, 20, 38, 0) 52%), linear-gradient(180deg, rgba(10, 20, 38, 0.35) 0%, transparent 14%, transparent 84%, #08101e 100%); }
 
 .hero__copy { position: relative; }
@@ -70,7 +66,7 @@ body { background: #08101e; }
 
 /* ================= services ================= */
 
-.services { position: relative; background: linear-gradient(180deg, rgba(12, 22, 40, 0.92), rgba(9, 17, 31, 0.95)); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.services { position: relative; background: linear-gradient(180deg, rgba(12, 22, 40, 0.62), rgba(9, 17, 31, 0.7)); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
 .services__row { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); }
 .service.glow-card { border-radius: 0; background: transparent; box-shadow: none; }
 .service + .service { border-left: 1px solid var(--line); }
@@ -121,7 +117,7 @@ body { background: #08101e; }
 
 /* ================= recent projects ================= */
 
-.projects { position: relative; margin-top: 90px; padding: 46px 0 50px; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); background: linear-gradient(180deg, rgba(12, 22, 40, 0.75), rgba(8, 16, 30, 0.5)); }
+.projects { position: relative; margin-top: 90px; padding: 46px 0 50px; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); background: linear-gradient(180deg, rgba(12, 22, 40, 0.55), rgba(8, 16, 30, 0.35)); }
 /* a small flare of the sunrise riding along the top edge */
 .projects__flare { position: absolute; top: -1px; left: 0; width: 220px; height: 2px; background: radial-gradient(closest-side, #fff2d8, rgba(255, 207, 143, 0.6), transparent); filter: drop-shadow(0 0 10px #ffcf8f); animation: flare 9s ease-in-out infinite; }
 @keyframes flare { 0% { transform: translateX(-30vw); } 100% { transform: translateX(110vw); } }
@@ -154,7 +150,7 @@ body { background: #08101e; }
 
 /* ================= footer ================= */
 
-.foot { margin-top: 100px; border-top: 1px solid var(--line); background: rgba(6, 12, 23, 0.82); }
+.foot { margin-top: 100px; border-top: 1px solid var(--line); background: rgba(6, 12, 23, 0.62); }
 .foot__inner { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 24px; padding-top: 38px; padding-bottom: 18px; }
 .foot__motto { font-family: var(--font-head); font-size: 34px; font-weight: 500; line-height: 1.1; }
 .foot__links { display: flex; flex-wrap: wrap; gap: 8px 22px; margin: 14px 0 0; padding: 0; list-style: none; }
@@ -189,6 +185,6 @@ body { background: #08101e; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .hero__sun, .hero__photo, .hero__water, .hero__light, .projects__flare, .hero__title, .hero__eyebrow, .hero__rule, .hero__lede, .hero__actions, .backdrop span { animation: none !important; opacity: 1; transform: none; }
+  .hero__sun, .hero__photo, .hero__shine, .projects__flare, .hero__title, .hero__eyebrow, .hero__rule, .hero__lede, .hero__actions, .backdrop span { animation: none !important; opacity: 1; transform: none; }
   .project { transition: none; opacity: 1; transform: none; }
 }

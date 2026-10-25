@@ -25,10 +25,12 @@ Before anything is uploaded the page shows the full design with neutral placehol
 
 ## Motion
 
-- The night skyline fades in and slowly zooms; a warm glow rises on the horizon behind the spire, tower and
-  bridge lights twinkle, and the river ripples with reflected light.
-- Behind the whole page an animated backdrop: a drifting blueprint grid, a band of gold light sweeping down, and
-  gold dust rising.
+- The night skyline fades in and slowly zooms; a warm glow rises on the horizon behind the spire.
+- Every real light in the photo (windows, tower tops, bridge lamps — mapped from the photo into `data/lights.ts`)
+  twinkles on its own rhythm, windows now and then switch off and on, and a shimmer sweeps along the lit strips.
+- The river is redrawn from the photo row by row with travelling ripples, so the reflections flow (`CityLights`).
+- The whole page sits on dark flowing water: a canvas of wobbling city-light reflections and ripple lines
+  (`WaterBackdrop`), with gold dust drifting over it. Canvases pause when off-screen or the tab is hidden.
 - Every card carries a light travelling around its border and a pointer-follow glow; photos zoom on hover.
 - Figures and results count up when they scroll into view. Everything respects `prefers-reduced-motion`.
 
