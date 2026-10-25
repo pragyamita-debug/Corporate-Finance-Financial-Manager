@@ -28,7 +28,9 @@ body { background: #08101e; }
 .top__name { overflow: hidden; color: #f4f8f9; font-size: 21px; font-weight: 300; letter-spacing: 0.08em; text-overflow: ellipsis; white-space: nowrap; }
 .top__name b { font-weight: 600; }
 .top__links { display: flex; gap: 30px; margin-left: auto; }
-.top__links a { position: relative; padding: 6px 0; color: var(--text-2); font-size: 13.5px; transition: color 0.25s; }
+.top:not(.is-scrolled) .top__links a, .top:not(.is-scrolled) .top__name { text-shadow: 0 1px 10px rgba(5, 12, 26, 0.95), 0 0 2px rgba(5, 12, 26, 0.9); }
+.top:not(.is-scrolled) .top__cta { background: rgba(10, 20, 38, 0.45); backdrop-filter: blur(6px); }
+.top__links a { position: relative; padding: 6px 0; color: #e4e8ef; font-size: 13.5px; transition: color 0.25s; }
 .top__links a::after { content: ''; position: absolute; left: 0; right: 0; bottom: -2px; height: 1px; background: var(--teal); transform: scaleX(0); transition: transform 0.35s var(--ease-out); }
 .top__links a:hover, .top__links a.is-active { color: #fff; }
 .top__links a:hover::after, .top__links a.is-active::after { transform: scaleX(1); }
@@ -37,12 +39,15 @@ body { background: #08101e; }
 /* ================= hero: the city at night ================= */
 
 .hero { position: relative; display: flex; align-items: center; height: min(820px, 100vh); min-height: 600px; padding: var(--nav) 0 40px; overflow: hidden; isolation: isolate; }
-.hero__scene { position: absolute; inset: 0; z-index: -1; background: #0a1426; }
+.hero__scene { position: absolute; inset: 0; z-index: -1; background: #2a3d5c; }
+/* a soft twilight wash over the sky so the upper half reads as early evening */
+.hero__scene::after { content: ''; position: absolute; inset: 0; background: radial-gradient(70% 55% at 62% 20%, rgba(150, 175, 215, 0.28), transparent 70%); mix-blend-mode: screen; pointer-events: none; }
 /* the photo box keeps the image's own shape, so the lights stay on the towers at every size */
 .hero__photo { position: absolute; right: 0; bottom: 0; height: max(100%, calc(100vw / 1.455)); aspect-ratio: 2200 / 1512; animation: kenburns 34s ease-in-out infinite alternate; transform-origin: 70% 60%; }
 @keyframes kenburns { from { transform: scale(1); } to { transform: scale(1.07) translate(-1%, -1%); } }
 .hero__photo img { width: 100%; height: 100%; max-width: none; opacity: 0; animation: photo-in 2.2s 0.1s var(--ease-out) forwards; }
-@keyframes photo-in { from { opacity: 0; filter: blur(8px) brightness(0.6); } to { opacity: 1; filter: none; } }
+/* the photo is shown brighter than the original: a lighter evening blue rather than deep night */
+@keyframes photo-in { from { opacity: 0; filter: blur(8px) brightness(0.8); } to { opacity: 1; filter: brightness(1.38) contrast(0.94) saturate(1.12); } }
 .hero__sun { position: absolute; left: 54.5%; top: 74%; width: 34%; aspect-ratio: 1.6; translate: -50% -50%; border-radius: 50%; background: radial-gradient(closest-side, rgba(255, 196, 140, 0.55), rgba(240, 140, 110, 0.25) 45%, transparent 75%); mix-blend-mode: screen; animation: glow-rise 5s 0.6s cubic-bezier(0.2, 0.7, 0.2, 1) both, glow-breathe 8s 6s ease-in-out infinite; }
 @keyframes glow-rise { from { opacity: 0; transform: translateY(40%) scale(0.7); } to { opacity: 1; transform: none; } }
 @keyframes glow-breathe { 50% { opacity: 0.7; transform: scale(1.08); } }
@@ -50,16 +55,16 @@ body { background: #08101e; }
 @keyframes ripple { to { background-position: 0 16px; } }
 .hero__light { position: absolute; width: 5px; height: 5px; margin: -2.5px 0 0 -2.5px; border-radius: 50%; background: #fff3d6; box-shadow: 0 0 6px 2px rgba(255, 210, 140, 0.9), 0 0 18px 4px rgba(255, 190, 110, 0.35); animation: twinkle 3.2s ease-in-out infinite; }
 @keyframes twinkle { 0%, 100% { opacity: 0.25; transform: scale(0.7); } 45% { opacity: 1; transform: scale(1.15); } }
-.hero__shade { position: absolute; inset: 0; background: linear-gradient(90deg, rgba(8, 16, 30, 0.9) 0%, rgba(8, 16, 30, 0.55) 34%, rgba(8, 16, 30, 0) 60%), linear-gradient(180deg, rgba(8, 16, 30, 0.6) 0%, transparent 18%, transparent 78%, #08101e 100%); }
+.hero__shade { position: absolute; inset: 0; background: linear-gradient(90deg, rgba(10, 20, 38, 0.62) 0%, rgba(10, 20, 38, 0.3) 32%, rgba(10, 20, 38, 0) 52%), linear-gradient(180deg, rgba(10, 20, 38, 0.35) 0%, transparent 14%, transparent 84%, #08101e 100%); }
 
 .hero__copy { position: relative; }
-.hero__eyebrow { display: flex; flex-wrap: wrap; gap: 6px 14px; margin-bottom: 22px; color: #c6ccd8; font-size: 11.5px; letter-spacing: 0.32em; text-transform: uppercase; opacity: 0; animation: rise 1s 0.2s var(--ease-out) forwards; }
+.hero__eyebrow { text-shadow: 0 1px 10px rgba(5, 12, 26, 0.8); display: flex; flex-wrap: wrap; gap: 6px 14px; margin-bottom: 22px; color: #c6ccd8; font-size: 11.5px; letter-spacing: 0.32em; text-transform: uppercase; opacity: 0; animation: rise 1s 0.2s var(--ease-out) forwards; }
 .hero__eyebrow span + span::before { content: '•'; margin-right: 14px; color: var(--teal); }
-.hero__title { max-width: 680px; font-family: var(--font); font-size: clamp(40px, 5.4vw, 72px); font-weight: 700; letter-spacing: 0.01em; line-height: 1.04; text-transform: uppercase; text-shadow: 0 4px 30px rgba(0, 0, 0, 0.45); opacity: 0; transform: translateY(24px); animation: rise 1.1s 0.3s var(--ease-out) forwards; }
+.hero__title { max-width: 680px; text-shadow: 0 2px 24px rgba(5, 12, 26, 0.65); font-family: var(--font); font-size: clamp(40px, 5.4vw, 72px); font-weight: 700; letter-spacing: 0.01em; line-height: 1.04; text-transform: uppercase; text-shadow: 0 4px 30px rgba(0, 0, 0, 0.45); opacity: 0; transform: translateY(24px); animation: rise 1.1s 0.3s var(--ease-out) forwards; }
 @keyframes rise { to { opacity: 1; transform: none; } }
 .hero__rule { display: block; width: 70px; height: 2px; margin-top: 28px; background: var(--teal); transform: scaleX(0); transform-origin: left; animation: rule 1s 0.9s var(--ease-out) forwards; }
 @keyframes rule { to { transform: scaleX(1); } }
-.hero__lede { max-width: 440px; margin-top: 22px; color: #e3e7ee; font-size: 20px; font-weight: 300; line-height: 1.45; opacity: 0; animation: rise 1s 0.6s var(--ease-out) forwards; }
+.hero__lede { max-width: 440px; margin-top: 22px; color: #f1f3f7; text-shadow: 0 1px 14px rgba(5, 12, 26, 0.7); font-size: 20px; font-weight: 300; line-height: 1.45; opacity: 0; animation: rise 1s 0.6s var(--ease-out) forwards; }
 .hero__actions { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 34px; opacity: 0; animation: rise 1s 0.8s var(--ease-out) forwards; }
 .hero__actions .pill { height: 50px; padding: 0 26px; }
 
@@ -166,7 +171,9 @@ body { background: #08101e; }
   .top__links a { padding: 11px 0; border-bottom: 1px solid var(--line); }
   .top__cta { margin-left: auto; }
   .top__burger { display: inline-grid !important; }
-  .hero__shade { background: linear-gradient(180deg, rgba(8, 16, 30, 0.35), rgba(8, 16, 30, 0.8) 62%, #08101e); }
+  .hero__shade { background: linear-gradient(180deg, rgba(10, 20, 38, 0.1), rgba(10, 20, 38, 0.38) 45%, rgba(10, 20, 38, 0.55) 75%, #08101e); }
+  /* centre the spire and skyline on narrow screens instead of the building edge */
+  .hero__photo { right: auto; left: 50%; translate: -56% 0; }
   .services__row, .insights, .projects__grid { grid-template-columns: minmax(0, 1fr); }
   .service + .service { border-left: 0; border-top: 1px solid var(--line); }
   .project { padding: 0; border-left: 0 !important; }
@@ -182,6 +189,6 @@ body { background: #08101e; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .hero__sun, .hero__photo, .hero__photo img, .hero__water, .hero__light, .projects__flare, .hero__title, .hero__eyebrow, .hero__rule, .hero__lede, .hero__actions, .backdrop span { animation: none !important; opacity: 1; transform: none; }
+  .hero__sun, .hero__photo, .hero__water, .hero__light, .projects__flare, .hero__title, .hero__eyebrow, .hero__rule, .hero__lede, .hero__actions, .backdrop span { animation: none !important; opacity: 1; transform: none; }
   .project { transition: none; opacity: 1; transform: none; }
 }
